@@ -1,14 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Website</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Vercel + Supabase 테스트</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to My Simple Website!</h1>
-    <p>This is a paragraph.</p>
-    <script src="script.js"></script>
+  <h1>나만의 진짜 데이터베이스 연동 🚀</h1>
+  
+  <!-- 글자를 입력할 수 있는 칸과 버튼 -->
+  <input type="text" id="myInput" placeholder="DB에 저장할 말을 적어봐!" style="padding: 10px; font-size: 16px;">
+  <button id="saveBtn">Supabase에 저장하기</button>
+  
+  <p id="resultText"></p>
+
+  <script>
+    document.getElementById('saveBtn').addEventListener('click', async () => {
+      const inputText = document.getElementById('myInput').value;
+      const resultText = document.getElementById('resultText');
+      resultText.innerText = "DB에 저장하는 중...";
+      
+      try {
+        // api/save 로 우리가 적은 글자를 보냄
+        const res = await fetch('/api/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: inputText })
+        });
+        
+        const data = await res.json();
+        resultText.innerText = data.result;
+        resultText.style.color = "blue";
+      } catch (error) {
+        resultText.innerText = "저장 실패!";
+        resultText.style.color = "red";
+      }
+    });
+  </script>
 </body>
 </html>
