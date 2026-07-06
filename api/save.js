@@ -1,8 +1,8 @@
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    // 🚨 테스트용 직접 입력 (주의: 절대 실제 배포용 코드에 남겨두지 말 것!)
-    const supabaseUrl = "https://ulkttpunyhwdrtneyegj.supabase.co";
-    const supabaseKey = "sb_secret_U65Cs2S0P6GHL4cCdjQrEA_Rw2sZoXG";
+    // ⭐️ Vercel 금고(환경 변수)에서 주소와 키를 안전하게 꺼내옵니다.
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_KEY;
     const userText = req.body.text;
 
     // Supabase DB의 'guestbook' 테이블로 데이터 전송
@@ -16,6 +16,6 @@ export default async function handler(req, res) {
       body: JSON.stringify({ message: userText }) 
     });
 
-    res.status(200).json({ result: "안전장치 해제! DB 저장 완벽하게 성공!" });
+    res.status(200).json({ result: "보안 완벽! DB 저장 성공!" });
   }
 }
